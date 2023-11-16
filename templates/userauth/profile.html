@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>My Profile</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='{% static "css/profile.css" %}'>
+
+
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="totop"></div>
+    <a href="{% url 'index' %}" class="fa fa-arrow-up" id="fixedarrow"></a>
+    <!-- <a href="#totop"><i class="fa fa-arrow-up" aria-hidden="true" id="fixedarrow"></i></a> -->
+    <!-- LEFT VERTICAL FIXED MENU -->
+
+    <div class="leftverticalmenu">
+        <a href="{% url 'index' %}" class="fa fa-twitter" id="twittericon"></a>
+        <ul>
+            <li><a href="{% url 'index' %}"><i class="fa fa-home" id="icons"></i>Home</a></li>
+            <li><a href="{% url 'search' %}"><i class="fa fa-hashtag" id="icons"></i>Explore</a></li>
+            <li><a href="#"><i class="fa fa-bell" id="icons"></i>Notification</a></li>
+            <li><a href="#"><i class="fa fa-envelope" id="icons"></i>Messages</a></li>
+            <li><a href="#"><i class="fa fa-bookmark" id="icons"></i>Bookmarks</a></li>
+            <li><a href="#"><i class="fa fa-list-alt" id="icons"></i>Lists</a></li>
+            <li><a href="{% url 'profile' user %}"><img src="{{profile.image.url}}" alt="profile"
+                        class="profileimage">Profile</a></li>
+            
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}"><i class="fa fa-align-center" id="icons"></i>Logout</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}"><i class="fa fa-align-center" id="icons"></i>Login</a></li>
+            {% endif %}
+        </ul>
+       <a href="{% url 'newpost' %}"> <figure> Post</figure></a>
+    </div>
+
+    <!-- END OF LEFT FIXED MENU -->
+
+    <div class="flexcontainer">
+        <div class="middlecontainer">
+            <section class="headsec">
+                <a href="{% url 'index' %}" class="fa fa-arrow-left" id="fa-arrow-left"></a>
+                <div>
+                    <h3>{{profile.first_name|title}}{{profile.last_name|title}}</h3>
+                        <span>Tweets</span><!--count the tweet add to your model-->
+                </div>
+            </section>
+            <section class="twitterprofile">
+                <div class="headerprofileimage">
+                    <img src="https://res.cloudinary.com/dowrygm9b/image/upload/v1570267399/laptop-3174729_yiprzu.jpg" alt="header" id="headerimage">
+                    <img src="{{profile.image.url}}" alt="profile pic" id="profilepic">
+                    {% if profile.user != request.user %}
+                    {% if following_status != True %}
+                    <a  href="{% url 'follow' profile.user 1 %}" class="editprofile">Follow</a>
+                    {% else %}
+                    <a  href="{% url 'follow' profile.user 0 %}" class="editprofile">Unfollow</a>
+                    {% endif %}
+                    {% else %}
+                    <a href="{% url 'setupprofile' %}" class="editprofile">Set up profile</a>
+                    {% endif %}
+                   
+                </div>
+                <div class="bio">
+                    <div class="handle">
+                        <h3>{{profile.first_name|title}}{{profile.last_name|title}}</h3>
+                        <span>@{{profile.first_name|title}}</span>
+                    </div>
+                    <p>{{profile.bio}} |</p>
+                    <!--<p>{{profile.bio}}|</p>-->
+                    <p>Barça fan |</p>
+                    <span>@Awelagos @4topsports</span> <br>
+                    <span> <i class="fa fa-location-arrow "></i> {{profile.location}}. <a href="#"> <i
+                                class="fa fa-external-link" aria-hidden="true"></i>{{profile.url}} </a> <i
+                            class="fa fa-birthday-cake" aria-hidden="true"></i> Born November 10</span>
+                    <br> <span><i class="fa fa-calendar"></i>Joined{{profile.created|date:'M-Y'}}</span>
+                    <div class="nawa">
+                        <div class="followers">{{following_count}} <span>Following</span></div>
+                        <div>{{followers_count}}<span> Followers</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="tweets">
+                <div class="heading">
+                    <p>Tweets</p>
+                    <p>Tweets and Replies</p>
+                    <p>Media</p>
+                    <p>Likes</p>
+                </div>
+            </section>
+            <section class="mytweets">
+                
+            </section>
+        </div>
+
+        <!-- RIGHT CONTAINER -->
+
+        <div class="rightcontainer">
+            <form method="GET" class="searchbar">
+                <div class="searchicon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                <input type="text" name="q" id="searchbox" placeholder="Search Twitter">
+            </form>
+
+            {% comment %}  {% endcomment %}
+            <section class="nigeriatrends">
+                <div class="headertrends">
+                    <h3>  Search for "{{query}}"</h3>
+                    <i class="fa fa-cog" id="fa-cog"></i>
+                </div>
+                {% for user in users %}
+                <div class="trenditem">
+                    <a href="{% url 'profile' user.username %}" class="user-info">
+                        <img class="user-avatar" src="{{user.profile.image.url}}" alt="User Avatar">
+                        <div class="user-details">
+                            <div class="user-username">{{ user.profile.first_name|title }} {{ user.profile.last_name|title }}</div>
+                            <div class="user-fullname">@{{ user.username }}</div>
+                        </div>
+                    </a>
+                    {% if user != request.user %}
+                    {% if following_status != True %}
+                    <a  href="{% url 'follow' profile.user 1 %}" class="follow-button">Follow</a>
+                    {% else %}
+                    <a  href="{% url 'follow' profile.user 0 %}">Unfollow</a>
+                    {% endif %}
+                    {% else %}
+                    <a href="{% url 'profile' user.username %}" class="follow-button">Profile</a>
+                    {% endif %}
+                   
+                </div>
+                {% endfor %}
+                
+            </section>
+             
+              
+            {% comment %}  {% endcomment %}
+            {% comment %} {% for post in posts %}
+            <section class="twittermedia">
+                <div><img src="{{post.user.picture.url}}" alt="media1"></div>
+                <div><img src="https://res.cloudinary.com/dowrygm9b/image/upload/v1570267399/laptop-3174729_yiprzu.jpg" alt="media1"></div>
+                <div><img src="https://res.cloudinary.com/dowrygm9b/image/upload/v1570267399/laptop-3174729_yiprzu.jpg" alt="media1"></div>
+                <div><img src="https://res.cloudinary.com/dowrygm9b/image/upload/v1570267399/laptop-3174729_yiprzu.jpg" alt="media1"></div>
+                <div><img src="https://res.cloudinary.com/dowrygm9b/image/upload/v1570267399/laptop-3174729_yiprzu.jpg" alt="media1"></div>
+                <div><img src="https://res.cloudinary.com/dowrygm9b/image/upload/v1570267399/laptop-3174729_yiprzu.jpg" alt="media1"></div>
+            </section>
+            {% endfor %} {% endcomment %}
+            <section class="nigeriatrends">
+                <div class="headertrends">
+                    <h2>Trends for you</h2>
+                    <i class="fa fa-cog" id="fa-cog"></i>
+                </div>
+                {% for trend in trends %}
+                <a href="{% url 'trend' trend.slug %}" style="text-decoration: none;"><div class="tagtrend">
+                    <div class="trending"> Trending on twitter</div>
+                    <div class="hashtag">{{trend.title}}</div>
+                    <div class="trending"> {{trend.Tags.count}} Post</div>
+                </div></a>
+                {% endfor %}
+                              
+            </section>
+        </div>
+    </div>
+</body>
+
+</html>

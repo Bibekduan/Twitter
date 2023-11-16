@@ -1,0 +1,105 @@
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #00aced;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .post-creation {
+            width: 90%;
+            max-width: 700px;
+            background-color: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            height: 50vh;
+        }
+
+        .cancel-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            text-decoration: none;
+        }
+
+        .user-details {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: black;
+            /* Remove border-bottom */
+        }
+
+        .user-details img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .username {
+            font-size: 16px;
+        }
+
+        .caption {
+            padding: 20px;
+            color: #555;
+            font-size:22px
+        }
+
+        .message-container {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .message-container img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .message-input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: none;
+            /* Remove border-top and border-bottom */
+            resize: none;
+        }
+
+        .post-actions {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-button {
+            padding: 10px 20px;
+            background-color: #00aced;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .post-button:hover {
+            background-color: #007bb5;
+        }
+
+        .date{
+            font-size:14px;
+        }
+       
+ 

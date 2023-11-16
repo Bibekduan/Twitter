@@ -1,0 +1,97 @@
+
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    place-items: center;
+    font-family: sans-serif;
+    background: #ecf0f3;
+}
+.container {
+    position: relative;
+    width: 350px;
+    height: 680px;
+    padding: 40px;
+    border-radius: 10px;
+    background: #ecf0f3;
+    box-sizing: border-box;
+    box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+}
+.twitter-logo {
+    background: url("/static/svg/twitter.svg");
+    height: 100px;
+    width: 100px;
+    margin: auto;
+    box-sizing: border-box;
+    box-shadow: 7px 7px 10px #cbced1, -7px -7px 10px white;
+    border-radius: 50%;
+}
+.twitter-title {
+    margin-top: 10px;
+    color: #1dadf2;
+    letter-spacing: 2px;
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+.inputs {
+    text-align: left;
+    margin-top: 30px;
+}
+label, input, button {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+}
+label {
+    margin-bottom: 4px;
+}
+label:nth-of-type(2) {
+    margin-top: 12px;
+}
+label::placeholder {
+    color: grey;
+}
+input {
+    height: 50px;
+    padding: 10px;
+    padding-left: 20px;
+    font-size: 14px;
+    background: #ecf0f3;
+    border-radius: 50px;
+    box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+}
+  
+input {
+    caret-color: blue;
+}
+button {
+    margin-top: 20px;
+    background: #1dadf2;
+    height: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 900;
+    color: white;
+    box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+    transition: 0.5s;
+
+}
+button:hover {
+    box-shadow: none;
+}
+
+.error{
+    background-color:none;
+    
+}
+
+h5{
+    color:red;
+}

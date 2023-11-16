@@ -1,0 +1,55 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/postdetails2.css' %}">
+    <title>Post Detail</title>
+
+
+</head>
+<body>
+    <div class="post-detail">
+        <div class="post-image">
+            <img src="{{post.picture.url}}" alt="Post Image">
+        </div>
+        <div class="post-content">
+            <a href="{% url 'profile' username=post.user.username %}" class="user-details">
+                <img src="{{post.user.profile.image.url}}" alt="User Avatar">
+                <div class="username">{{post.user.username}}</div>
+            </a>
+            <p class="caption">{{post.caption}} .</p>
+            <p class="date">{{post.posted}}</p>
+            <div class="icons">
+                <i class="far fa-comment"></i>
+                <i class="far fa-heart"></i>
+                <i class="far fa-save"></i>
+            </div>
+
+            <!-- Comment input and button -->
+            <form method="POST">
+                {% csrf_token %}
+                <div class="comment-input-container">
+                    <img class="user-image-comment-input" src="{{request.user.profile.image.url}}" alt="User Avatar">
+                    {{form.body}}
+                    <button class="comment-button">Reply</button>
+                </div>
+            </form> 
+
+            <!-- Comment body -->
+            <div class="comment-body">
+                {% for t in tweet %}
+                <a href="{% url 'profile' username=t.user %}" class="comment-message">
+                    <img src="{{t.user.profile.image.url}}" alt="User Image">
+                    <div class="comment-username">{{t.user.profile.first_name|title}}{{t.user.profile.last_name|title}}</div>-<span>{{t.date|date:"M d"}}</span>
+                </a>
+                <div class="comment-text">{{t.body}}.</div>
+                <div class="comment-line"></div> <!-- Line between comments -->
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

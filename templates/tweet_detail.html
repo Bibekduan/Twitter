@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tweet Details</title>
+    <link rel="stylesheet" href="{% static 'css/tweetdetails.css' %}" />
+  
+  </head>
+  <body>
+    <div class="layout">
+      <div class="layout__left-sidebar">
+        <a href="{% url 'index' %}"><img src="{% static 'svg/twitter.svg' %}" class="brand" /></a>
+        <div class="sidebar-menu">
+          <a href="{% url 'index' %}" class="sidebar-menu__item sidebar-menu__item--active">
+            <img src="{% static 'svg/home.svg' %}" class="sidebar-menu__item-icon" />
+            Home
+          </a>
+          <a href="{% url 'search' %}"  class="sidebar-menu__item">
+            <img src="{% static 'svg/explore.svg' %}" class="sidebar-menu__item-icon" />
+            Explore
+          </a>
+
+          <div class="sidebar-menu__item">
+            <img
+              src="{% static 'svg/notifications.svg' %}"
+              class="sidebar-menu__item-icon"
+            />
+            Notifications
+          </div>
+
+          <div class="sidebar-menu__item">
+            <img src="{% static 'svg/messages.svg' %}" class="sidebar-menu__item-icon" />
+            Messages
+          </div>
+
+          <a href="{% url 'profile' request.user.username %}" class="sidebar-menu__item">
+            <img src="{% static 'svg/profile.svg' %}" class="sidebar-menu__item-icon" />
+            Profile
+          </a>
+          {% if user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="sidebar-menu__item">
+            <img src="{% static 'svg/more.svg' %}" class="sidebar-menu__item-icon" />
+            Logout
+          </a>
+          {% else %}
+          <a href="{% url 'logout' %}" class="sidebar-menu__item">
+            <img src="{% static 'svg/more.svg' %}" class="sidebar-menu__item-icon" />
+            Login
+          </a>
+          {% endif %}
+          
+        </div>
+      </div>
+      <div class="layout__main">
+         <div class="tweet">
+          <div class="post">
+            Post
+          </div>
+        </div>
+
+        <div class="tweet">
+          <a href="{% url 'profile' post.user.username %}"> <img class="tweet__author-logo" src="{{post.user.profile.image.url}}" /></a>
+          <div class="tweet__main">
+            <div class="tweet__header">
+              <a href="{% url 'profile' post.user.username %}"  style="color:black;" class="tweet__author-name">
+                {{post.user.profile.first_name|title}}{{post.user.profile.last_name|title}}
+              </a>
+              <a href="{% url 'profile' post.user.username %}"  style="color:black;" class="tweet__author-slug">
+                @{{post.user.username}}
+              </a>
+              -<div class="tweet__publish-time">
+                {{post.posted|date:"M-d"}}
+              </div>
+            </div>
+            <div class="tweet__content">
+              {{post.caption}}
+              {% if picture %} 
+              <img class="tweet__image" src="{{post.picture.url}}" />
+              {% endif %}
+            </div>
+            <div>{{post.posted}}</div>
+          </div>
+        </div>
+
+        <div class="tweet">
+          <!-- User Image -->
+          <a href="{% url 'profile' user.username %}"><img src="{{request.user.profile.image.url}}" alt="User Image" class="user-image"></a>
+      
+          <!-- Comment Box and Reply Button -->
+          <form method='POST' class="comment-form">
+            {% csrf_token %}
+             {{form.body}}
+              <button type="submit" class="reply-button">Reply</button>
+          </form>
+      </div>
+
+        {% for  t  in all_tweet %}
+        <div class="tweet">
+         
+          <a href="{% url 'profile' t.user.username %}"><img class="tweet__author-logo" src="{{t.user.profile.image.url}}" /></a>
+          <div class="tweet__main">
+            <div class="tweet__header">
+              <a href="{% url 'profile' t.user.username %}"  style="color:black;" class="tweet__author-name">
+               {{ t.user.profile.first_name|title}}{{t.user.profile.last_name|title}}
+              </a>
+              <a href="{% url 'profile' t.user.username %}" style="color:black;" class="tweet__author-slug">
+                @{{t.user.username}}
+              </a>-
+              <div class="tweet__publish-time">
+                {{t.date|date:"M-d"}}
+              </div>
+            </div>
+            <div class="tweet__content">
+              {{t.body}}
+            </div>
+          </div>
+         
+        </div>
+        {% endfor %}
+       
+      </div>
+      <div class="layout__right-sidebar-container">
+        <div class="layout__right-sidebar">
+          <div class="trends-for-you">
+            <div class="trends-for-you__block">
+              <div class="trends-for-you__heading">
+                Trends for you
+              </div>
+            </div>
+            {% for trend in trends %}
+              <a href="{% url 'trend' trend.slug %}" style="text-decoration: none;"><div class="trends-for-you__block">
+                <div class="trends-for-you__meta-information">
+                  Trending on twitter
+                </div>
+                <div class="trends-for-you__trend-name">
+                  #{{trend.title}}
+                </div>
+                <div class="trends-for-you__meta-information">
+                  {{trend.Tags.count}}  Posts
+                </div>
+              </div></a>
+              {% endfor %}
+           
+          </div>
+          <div class="who-to-follow">
+            <div class="who-to-follow__block">
+              <div class="who-to-follow__heading">
+                Who to follow
+              </div>
+            </div>
+            {% for user in all_user %}
+            <div class="who-to-follow__block">
+              <a href="{% url 'profile' user.username %}"><img
+                class="who-to-follow__author-logo"
+                src="{{user.profile.image.url}}"
+              /></a>
+              <div class="who-to-follow__content">
+                <div>
+                  <div class="who-to-follow__author-name">
+                    {{user.profile.first_name|title}}{{user.profile.last_name|title}}
+                  </div>
+                  <div class="who-to-follow__author-slug">
+                    @{{user.username}}
+                  </div>
+                </div>
+                {% if user != request.user %}
+                {% if following_status != True %}
+                <a href="{% url 'follow' user.profile.user 1 %}" style="text-decoration: none;" class="who-to-follow__button">Follow</a>
+                {% else %}
+                <a a href="{% url 'follow' user.profile.user 0 %}" style="text-decoration: none;" class="who-to-follow__button">unfollow</a>
+                {% endif %}
+                {% else %}
+                <a a href="{% url 'profile' user.username %}" style="text-decoration: none;" class="who-to-follow__button">Profile</a> 
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

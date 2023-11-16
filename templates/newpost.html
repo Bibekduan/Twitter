@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Post</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='{% static "css/newpost.css" %}'>
+
+   
+</head>
+<body>
+    <div class="post-container">
+        <h2 style="color: #1da1f2;">Create a Post</h2>
+        <form class="post-form" method='POST' enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="picture">Image URL:</label>
+            {{form.picture}}
+
+            <label for="caption">Caption:</label>
+            {{form.caption}}
+
+            <label for="tags">Tags:</label>
+            {{form.tag}}
+
+            <button type="submit" class="post-button">Post</button>
+
+        </form>
+    </div>
+</body>
+</html>

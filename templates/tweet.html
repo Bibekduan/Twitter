@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/tweet.css' %}">
+    <title>Tweet</title>
+    
+</head>
+<body>
+    <div class="post-creation">
+        <a href="{% url 'index' %}" class="cancel-icon">x</a>
+        <a href="{% url 'profile' username=post.user.username %}" class="user-details">
+            <img src="{{post.user.profile.image.url}}" alt="User Avatar">
+            <div class="username">{{post.user.username|title}}</div>--<span class="date">{{post.posted|date:"d-M"}}</span>
+        </a>
+        <div class="caption">{{post.caption}}.</div>
+        
+        <form method="POST" class="message-container">
+            {% csrf_token %}
+            <a href="{% url 'profile' username=request.user.username %}"><img src="{{request.user.profile.image.url}}" alt="User Image"></a>
+            {{form.body}}
+            <button  class="post-button">Post</button>
+        </form>
+        <div class="post-actions">
+            
+        </div>
+    </div>
+</body>
+</html>

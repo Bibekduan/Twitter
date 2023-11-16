@@ -1,0 +1,144 @@
+.widgets__input {
+    display: flex;
+    align-items: center;
+    background-color: var(--twitter-background);
+    padding: 10px;
+    border-radius: 20px;
+    margin-top: 10px;
+    margin-left: 20px;
+  }
+  
+
+  .sidebarOption .material-icons,
+  .fa-twitter {
+    padding: 20px;
+   
+  }
+
+  .widgets__searchIcon {
+    color: gray;
+  }
+
+  .widgets__input input {
+    border: none;
+    background-color: var(--twitter-background);
+  }
+
+  .widgets__widgetContainer {
+    margin-top: 15px;
+    margin-left: 20px;
+    padding: 20px;
+    background-color:white;
+    border-radius: 20px;
+  }
+
+  .widgets__widgetContainer h2 {
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  .widgets {
+    flex: 0.3;
+  }
+
+  /* add new style */
+
+  .tweet .search-bar {
+    background-color: #f0f0f0;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    margin-bottom: 10px; /* Adjust as needed */
+  }
+  
+  .tweet .search-bar .search-icon {
+    padding: 8px;
+    border-radius: 50%;
+    background-color: #fff; /* Background color for the search icon */
+    margin-right: 8px;
+    color: #555;
+  }
+  
+  .tweet .search-bar input {
+    border: none;
+    outline: none;
+    padding: 8px;
+    flex: 1;
+  }
+  
+  /* Optional: Add styles to make the search icon more prominent when focused */
+  .tweet .search-bar input:focus + .search-icon {
+    background-color: #ccc;
+    color: #000;
+  }
+
+  /* follow button */
+
+  .follow-button{
+    margin-left: auto;
+    /* margin-top: 5px; Adjust as needed */
+    background-color: #63bde7; /* Green background */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .follow-button:hover {
+    background-color: #69b7eb; /* Darker green on hover */
+  
+  }
+
+  .tweet {
+    display: flex;
+  }
+  .tweet__main {
+    flex: 1; /* Allow the main content to grow and take remaining space */
+    /* Your existing styles for the main tweet content */
+  }
+
+
+  /* add search button css */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    width: 300px; /* Adjust the width as needed */
+    margin: 4px; /* Adjust the margin as needed */
+    background-color: #f2f2f2; /* Light gray background */
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.search-icon {
+    font-size: 24px; /* Adjust the font size as needed */
+    margin-right: 5px; /* Space between icon and input */
+}
+
+input[type="text"] {
+    flex: 1;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    outline: none;
+}
+
+#search-button {
+    background-color: #63bde7; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+#search-button:hover {
+    background-color: #63bde7; /* Darker green on hover */
+}
+
+.comment{
+    font-weight: 300;
+    font-size: 30px;
+}

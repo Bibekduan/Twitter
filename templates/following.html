@@ -1,0 +1,290 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>twitter.com</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <!-- sidebar starts -->
+    <div class="sidebar">
+      <a href="{% url 'index' %}"><i class="fab fa-twitter"></i></a>
+      <a href="{% url 'index' %}" class="sidebarOption active">
+        <span class="material-icons"> home </span>
+        <h2>Home</h2>
+      </a>
+
+      <a href="{% url 'search' %}" class="sidebarOption">
+        <span class="material-icons"> search </span>
+        <h2>Explore</h2>
+      </a>
+
+      <div class="sidebarOption">
+        <span class="material-icons"> notifications_none </span>
+        <h2>Notifications</h2>
+      </div>
+
+      <div class="sidebarOption">
+        <span class="material-icons"> mail_outline </span>
+        <h2>Messages</h2>
+      </div>
+
+      <div class="sidebarOption">
+        <span class="material-icons"> bookmark_border </span>
+        <h2>Bookmarks</h2>
+      </div>
+
+      <div class="sidebarOption">
+        <span class="material-icons"> list_alt </span>
+        <h2>Lists</h2>
+      </div>
+
+      <a href="{% url 'profile' user %}" style="text-decoration:none; color:black;" class="sidebarOption">
+        <span class="material-icons"> perm_identity </span>
+        <h2>Profile</h2>
+      </a>
+
+      {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}" class="sidebarOption">
+        <span class="material-icons"> more_horiz </span>
+        <h2>Logout</h2>
+      </a>
+      
+      {% else %}
+      <a href="{% url 'login' %}" class="sidebarOption">
+        <span class="material-icons"> more_horiz </span>
+        <h2>Login</h2>
+      </a>
+      {% endif %}
+      <a href="{% url 'newpost' %}">
+      <button class="sidebar__tweet">Post</button>
+      </a>
+    </div>
+    <!-- sidebar ends -->
+
+    <!-- feed starts -->
+    <div class="feed">
+      <div class="feed__header">
+        <a href="{% url 'index' %}">For you</a>
+        <a href="{% url 'following_post' %}">Following</a>
+        
+      </div>
+     
+
+      <!-- tweetbox starts -->
+      <div class="tweetBox">
+        <form>
+          <a href="{% url 'newpost' %}" class="tweetbox__input">
+            <img
+              src="{{request.user.profile.image.url}}"
+              alt=""
+            />
+            <input type="text" placeholder="What's happening?" />
+          </a>
+          <button class="tweetBox__tweetButton">Post</button>
+        </form>
+      </div>
+      <!-- tweetbox ends -->
+
+      <!-- post starts -->
+      {% for post in posts %}
+      <div class="post">
+        <a href="{% url 'profile' post.user.username %}" class="post__avatar">
+          <img
+            src="{{post.user.profile.image.url}}"
+            alt=""
+          />
+        </a>
+
+        <div class="post__body">
+          <div class="post__header">
+            <a href="{% url 'profile' post.user.username %}" style="text-decoration: none; color:black;" class="post__headerText">
+              <h3>
+                {{post.user.username|title}}
+                <span class="post__headerSpecial"
+                  ><span class="material-icons post__badge"> verified </span>@{{post.user.username|title}}</span
+                >-<span class="date">{{post.posted|date:"d-M"}}</span>
+              </h3>
+            </a>
+            <a href="{% url 'tweet_detail' post.id %}" class="post__headerDescription">
+              <p>{{post.caption}}.</p>
+            </a>
+          </div>
+          {% if post.picture %}
+          <a href="{% url 'post_detail' post_id=post.id %}">
+          <img
+            src="{{post.picture.url}}"
+            alt=""
+          />
+          </a>
+       
+          {% endif %}
+        
+          <div class="post__footer">
+            <div class="tweet-count-container">
+              <a href="{% url 'tweet' post_id=post.id %}" style="text-decoration: none; color:black;" class="material-icons"> repeat </a>
+              <span class="tweet-count">{{ post.tweets.count }}</span>
+          </div>
+          <div class="like-count-container">
+
+             <a href="{% url 'like' post_id=post.id %}" style="text-decoration: none; color:black;" class="material-icons"> favorite_border </a>
+            <span class="like-count">{{ post.like }}</span>
+          </div>
+           
+            <span class="material-icons"> publish </span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <!-- post ends -->
+
+    
+      <!-- post ends --> 
+    </div>
+    <!-- feed ends -->
+
+    <!-- widgets starts -->
+    <div class="widgets">
+      <div class="tweet">
+        <form class="search-bar" method="GET">
+          <a href="{% url 'search' %}"><span class="material-icons search-icon">search</span><a>
+          <input type="text" placeholder="Search" name="q">
+          <button id="search-button" type="submit">Search</button>
+        </form>
+      </div>
+      
+       <div class="widgets__widgetContainer">
+        <div class="layout__right-sidebar-container">
+          <div class="layout__right-sidebar">
+           
+            <div class="who-to-follow">
+              <div class="who-to-follow__block">
+                <div class="who-to-follow__heading">
+                 Search for "{{query}}"
+                </div>
+              </div>
+              {% for u in users %}
+              <div style="text-decoration:none;" class="who-to-follow__block">
+                <a href="{% url 'profile' u.username %}"><img
+                  class="who-to-follow__author-logo"
+                  src="{{u.profile.image.url}}"
+                /></a>
+                <div style="text-decoration:none;" class="who-to-follow__content">
+                 <div>
+                  <div class="who-to-follow__author-name">
+                      {{u.profile.first_name|title}}{{u.profile.last_name|title}}
+                    </div>
+                    <div class="who-to-follow__author-slug">
+                      @{{u.username}}
+                    </div>
+                  </div>
+                  {% if u != request.user %}
+                  {% if following_status != True %}
+                  <a href="{% url 'follow' u.profile.user 1 %}" class="who-to-follow__button">Follow
+                  </a>
+                  {% else %}
+                  <a href="{% url 'follow' u.profile.user 0 %}" class="who-to-follow__button">Unfollow
+                  </a>
+                  {% endif %}
+                  {% else %}
+                  <a href="{% url 'profile' u.username %}" class="who-to-follow__button">Profile
+                  </a>
+                  
+                  {% endif %}
+                 
+                    
+                </div>
+              </div>
+              {% endfor %}
+              
+            </div>
+            <br>
+
+
+            <div class="trends-for-you">
+              <div class="trends-for-you__block">
+                <div class="trends-for-you__heading">
+                  Trends for you
+                </div>
+              </div>
+              {% for trend in trends %}
+              <a href="{% url 'trend' trend.slug %}" style="text-decoration: none;"><div class="trends-for-you__block">
+                <div class="trends-for-you__meta-information">
+                  Trending on twitter
+                </div>
+                <div class="trends-for-you__trend-name">
+                  #{{trend.title}}
+                </div>
+                <div class="trends-for-you__meta-information">
+                  {{trend.Tags.count}}  Posts
+                </div>
+              </div></a>
+              {% endfor %}
+             
+            </div>
+
+
+
+            <div class="who-to-follow">
+              <div class="who-to-follow__block">
+                <div class="who-to-follow__heading">
+                  Who to follow
+                </div>
+              </div>
+              {% for user in all_user %}
+              <div class="who-to-follow__block">
+                <a href="{% url 'profile' user.username %}"><img
+                  class="who-to-follow__author-logo"
+                  src="{{user.profile.image.url}}"
+                /></a>
+                <div class="who-to-follow__content">
+                  <div>
+                    <div class="who-to-follow__author-name">
+                      {{user.profile.first_name|title}}{{user.profile.last_name|title}}
+                    </div>
+                    <div class="who-to-follow__author-slug">
+                      @{{user.username}}
+                    </div>
+                  </div>
+                  {% if user != request.user %}
+                  {% if following_status != True %}
+                  <a href="{% url 'follow' user.profile.user 1 %}" class="who-to-follow__button">Follow</a>
+                  {% else %}
+                  <a a href="{% url 'follow' user.profile.user 0 %}" class="who-to-follow__button">unfollow</a>
+                  {% endif %}
+                  {% else %}
+                  <a a href="{% url 'profile' user.username %}" class="who-to-follow__button">Profile</a> 
+                  {% endif %}
+                </div>
+              </div>
+              {% endfor %}
+              
+            </div>
+          </div>
+        </div>
+      </div>
+        
+        
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+       </div> 
+    </div>
+  
+  </body>
+</html>
+
+
+
+
+  
